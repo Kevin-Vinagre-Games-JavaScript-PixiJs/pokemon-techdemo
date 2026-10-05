@@ -8,16 +8,48 @@ canvas.height = 576
 
 const collisionsMap = []
 
+const offset = {
+    x: -15,
+    y: -710
+}
+
 for (let i = 0; i < collisions.length; i += 70) {
     collisionsMap.push(collisions.slice(i, i + 70))
-
-}
-class Boundary {
 
 }
 
 context.fillStyle = 'white'
 context.fillRect(0, 0, canvas.width, canvas.height)
+
+class Boundary {
+    static width = 48
+    static height = 48
+
+    constructor({ position }) {
+        this.position = position
+    }
+
+    draw(context) {
+        context.fillStyle = 'red'
+        context.fillRect(this.position.x, this.position.y, Boundary.width, Boundary.height)
+
+    }
+
+}
+
+const boundarys = []
+
+collisionsMap.forEach((row, i) => {
+    row.forEach((Symbol, j) => {
+        if (Symbol === 1025)
+            boundarys.push(new Boundary({
+                position: {
+                    x: j * Boundary.width + offset.x,
+                    y: i * Boundary.height + offset.y
+                }
+            }))
+    })
+})
 
 const mapImg = new Image()
 mapImg.src = './assets/img/maps/IslandHouse_zoomed.png'
@@ -38,7 +70,7 @@ class Sprite {
     }
 }
 
-const background = new Sprite({ position: { x: -15, y: -710 }, image: mapImg })
+const background = new Sprite({ position: offset, image: mapImg })
 
 const keys = {
     w: {
@@ -54,9 +86,14 @@ const keys = {
         pressed: false
     }
 }
+
+const movables = [background, boundarys]
 function animate() {
     window.requestAnimationFrame(animate);
     background.draw(context);
+    boundarys.forEach(boundary => {
+        boundary.draw(context)
+    })
     context.drawImage(playerImg,
         0,
         0,
@@ -66,10 +103,10 @@ function animate() {
         ((canvas.height / 2) - (playerImg.height / 4) / 2),
         playerImg.width / 4,
         playerImg.height)
-    if (keys.w.pressed) background.position.y += 3
-    if (keys.s.pressed) background.position.y -= 3
-    if (keys.a.pressed) background.position.x += 3
-    if (keys.d.pressed) background.position.x -= 3
+    if (keys.w.pressed) movables.forEach(movable => { movable.position.y += 3 })
+    if (keys.s.pressed) movables.forEach(movable => { movable.position.y -= 3 })
+    if (keys.a.pressed) movables.forEach(movable => { movable.position.x += 3 })
+    if (keys.d.pressed) movables.forEach(movable => { movable.position.x -= 3 })
 }
 animate()
 
