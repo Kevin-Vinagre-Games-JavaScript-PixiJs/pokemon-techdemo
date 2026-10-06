@@ -4,7 +4,7 @@ class IslandHouse {
     async start() {
         await renderEngine.addObject({
             object: {
-                image: "../assets/img/IslandHouse_zoomed.png",
+                image: new URL("../assets/img/maps/IslandHouse_zoomed.png", import.meta.url).href,
                 x: 0,
                 y: 0
             }
