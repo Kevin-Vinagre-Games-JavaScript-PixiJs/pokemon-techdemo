@@ -1,16 +1,40 @@
 class RenderEngine {
 
     constructor() {
-        this.renderObjects = [];
+        this.idbase = 0
+        this.renderObjects = []
 
     }
 
-    addObject({ data }) {
-        this.renderObjects.push(data);
+    async addObject({ object }) {
+        const imagem = new Image()
+        imagem.src = object.image
+        await image.decode()
+        this.renderObjects.push({
+            oid: this.idbase += 1,
+            image: imagem,
+            x: object.x,
+            y: object.y
+        });
+        return this.idbase
     }
 
-    removeObject({ data }) {
-        this.renderObjects = this.renderObjects.filter(item => item !== data);
+    updateObject({ object }) {
+        this.renderObjects.forEach(Renderobjects => {
+            if (Renderobjects.oid === object.oid) {
+                if (Renderobjects.x !== object.x) Renderobjects.x = object.x
+                if (Renderobjects.y !== object.y) Renderobjects.y = object.y
+            }
+        })
+    }
+
+    removeObject({ oid }) {
+        this.renderObjects = this.renderObjects.filter(object => object.oid !== oid);
+    }
+
+    clearRender() {
+        if (this.idbase > 0) this.idbase = 0
+        this.renderObjects.length = 0
     }
 
     render(context) {

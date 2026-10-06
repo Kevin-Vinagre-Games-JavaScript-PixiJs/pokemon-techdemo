@@ -12,8 +12,8 @@ class Game {
     }
 
     loop() {
-        requestAnimationFrame(this.loop)
         this.update()
+        requestAnimationFrame(this.loop)
     }
 
 }
