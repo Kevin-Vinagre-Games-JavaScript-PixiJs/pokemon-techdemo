@@ -9,7 +9,7 @@ class RenderEngine {
     async addObject({ object }) {
         const imagem = new Image()
         imagem.src = object.image
-        await image.decode()
+        await imagem.decode()
         this.renderObjects.push({
             oid: this.idbase += 1,
             image: imagem,
