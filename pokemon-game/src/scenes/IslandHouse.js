@@ -6,7 +6,11 @@ class IslandHouse {
             object: {
                 image: new URL("../assets/img/maps/IslandHouse_zoomed.png", import.meta.url).href,
                 x: 0,
-                y: 0
+                y: 0,
+                offset: {
+                    x: -17,
+                    y: -710
+                }
             }
         })
     }

@@ -13,8 +13,8 @@ class RenderEngine {
         this.renderObjects.push({
             oid: this.idbase += 1,
             image: imagem,
-            x: object.x,
-            y: object.y
+            x: object.x + object.offset.x,
+            y: object.y + object.offset.y
         });
         return this.idbase
     }
