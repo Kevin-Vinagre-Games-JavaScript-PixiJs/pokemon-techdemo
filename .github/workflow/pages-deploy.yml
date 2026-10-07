@@ -19,7 +19,7 @@ jobs:
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: pokemon-game
+          path: pokemon-game/
 
   deploy:
     needs: build
