@@ -1,11 +1,12 @@
-import Transform from "../components/Transform";
-import Sprite from "../components/Sprite";
+import Transform from "../components/Transform.js";
+import Sprite from "../components/Sprite.js";
 
 function createPlayer({ image, x, y }) {
     return {
         id: crypto.randomUUID(),
         components: {
-            tranform: new Transform(x, y),
+            oid: null,
+            transform: new Transform(x, y),
             sprite: new Sprite({
                 image,
                 offset: {
@@ -20,3 +21,5 @@ function createPlayer({ image, x, y }) {
         }
     }
 }
+
+export default createPlayer

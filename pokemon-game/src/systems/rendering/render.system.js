@@ -6,32 +6,38 @@ class RenderEngine {
 
     }
 
-    async addObject({ object }) {
+    async addObject({ components }) {
         const imagem = new Image()
-        imagem.src = object.image
+        imagem.src = components.sprite.image
         await imagem.decode()
         this.renderObjects.push({
             oid: this.idbase += 1,
-            image: imagem,
+            sprite: {
+                image: imagem,
+                offset: {
+                    x: components.sprite.offset.x,
+                    y: components.sprite.offset.y
+                }
+            },
             transform: {
-                x: object.transform.x + object.offset.x,
-                y: object.transform.y + object.offset.y
+                x: components.transform.x + components.sprite.offset.x,
+                y: components.transform.y + components.sprite.offset.y
             }
         });
         return this.idbase
     }
 
-    updateObject({ object }) {
+    updateObject({ components }) {
         this.renderObjects.forEach(Renderobjects => {
-            if (Renderobjects.oid === object.oid) {
-                if (Renderobjects.transform.x !== object.x) Renderobjects.transform.x = object.transform.x
-                if (Renderobjects.transform.y !== object.y) Renderobjects.transform.y = object.transform.y
+            if (Renderobjects.oid === components.oid) {
+                if (Renderobjects.transform.x !== components.x) Renderobjects.transform.x = components.transform.x
+                if (Renderobjects.transform.y !== components.y) Renderobjects.transform.y = components.transform.y
             }
         })
     }
 
     removeObject({ oid }) {
-        this.renderObjects = this.renderObjects.filter(object => object.oid !== oid);
+        this.renderObjects = this.renderObjects.filter(components => components.oid !== oid);
     }
 
     clearRender() {
@@ -40,8 +46,8 @@ class RenderEngine {
     }
 
     render(context) {
-        this.renderObjects.forEach(Object => {
-            context.drawImage(Object.image, Object.transform.x, Object.transform.y)
+        this.renderObjects.forEach(components => {
+            context.drawImage(components.sprite.image, components.transform.x, components.transform.y)
         })
     }
 
