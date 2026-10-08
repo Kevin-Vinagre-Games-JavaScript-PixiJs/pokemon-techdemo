@@ -13,8 +13,10 @@ class RenderEngine {
         this.renderObjects.push({
             oid: this.idbase += 1,
             image: imagem,
-            x: object.x + object.offset.x,
-            y: object.y + object.offset.y
+            transform: {
+                x: object.transform.x + object.offset.x,
+                y: object.transform.y + object.offset.y
+            }
         });
         return this.idbase
     }
@@ -22,8 +24,8 @@ class RenderEngine {
     updateObject({ object }) {
         this.renderObjects.forEach(Renderobjects => {
             if (Renderobjects.oid === object.oid) {
-                if (Renderobjects.x !== object.x) Renderobjects.x = object.x
-                if (Renderobjects.y !== object.y) Renderobjects.y = object.y
+                if (Renderobjects.transform.x !== object.x) Renderobjects.transform.x = object.transform.x
+                if (Renderobjects.transform.y !== object.y) Renderobjects.transform.y = object.transform.y
             }
         })
     }
@@ -39,7 +41,7 @@ class RenderEngine {
 
     render(context) {
         this.renderObjects.forEach(Object => {
-            context.drawImage(Object.image, Object.x, Object.y)
+            context.drawImage(Object.image, Object.transform.x, Object.transform.y)
         })
     }
 
