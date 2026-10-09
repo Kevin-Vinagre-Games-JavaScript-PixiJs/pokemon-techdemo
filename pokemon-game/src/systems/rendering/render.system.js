@@ -50,8 +50,12 @@ class RenderEngine {
     updateObject({ components }) {
         this.renderObjects.forEach(Renderobjects => {
             if (Renderobjects.oid === components.oid) {
-                if (Renderobjects.transform.x !== components.x) Renderobjects.transform.x = components.transform.x
-                if (Renderobjects.transform.y !== components.y) Renderobjects.transform.y = components.transform.y
+                if (Renderobjects.transform.x !== components.transform.x) {
+                    Renderobjects.transform.x = components.transform.x + components.sprite.offset.x
+                }
+                if (Renderobjects.transform.y !== components.transform.y) {
+                    Renderobjects.transform.y = components.transform.y + components.sprite.offset.y
+                }
             }
         })
     }

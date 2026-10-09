@@ -1,9 +1,11 @@
 import renderEngine from "../systems/rendering/render.system.js";
 import createPlayer from "../entities/Player.js";
 import { movement } from "../systems/movement/movement.system.js";
+import createMap from "../entities/Maps.js";
 
 class IslandHouse {
     player = null
+    map = null
     async start({ canvas }) {
 
         const playerSpawPoint = {
@@ -15,32 +17,26 @@ class IslandHouse {
             x: playerSpawPoint.x,
             y: playerSpawPoint.y
         })
-
-        await renderEngine.addObject({
-            components: {
-                sprite: {
-                    image: new URL("../assets/img/maps/IslandHouse_zoomed.png", import.meta.url).href,
-                    offset: {
-                        x: -17,
-                        y: -710
-                    },
-                    size: {
-                        width: canvas.width,
-                        height: canvas.height
-                    }
-
-                },
-                transform: {
-                    x: 0,
-                    y: 0
-                }
+        this.map = createMap({
+            image: new URL("../assets/img/maps/IslandHouse_zoomed.png", import.meta.url).href,
+            x: 0,
+            y: 0,
+            offset: {
+                x: -17,
+                y: -710
+            },
+            size: {
+                width: canvas.width,
+                height: canvas.height
             }
         })
+
+        this.map.components.oid = await renderEngine.addObject(this.map)
         this.player.components.oid = await renderEngine.addObject(this.player)
     }
 
     update() {
-        movement({ player: this.player });
+        movement({ player: this.map });
     }
 }
 
