@@ -36,7 +36,7 @@ class IslandHouse {
     }
 
     update() {
-        movement({ player: this.map });
+        movement({ player: this.player });
     }
 }
 
