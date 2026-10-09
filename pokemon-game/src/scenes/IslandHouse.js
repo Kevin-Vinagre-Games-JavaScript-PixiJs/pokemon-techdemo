@@ -2,8 +2,11 @@ import renderEngine from "../systems/rendering/render.system.js";
 import createPlayer from "../entities/Player.js";
 
 class IslandHouse {
-    async start() {
-        const playerSpawPoint = { x: 0, y: 0 }
+    async start({ canvas }) {
+        const playerSpawPoint = {
+            x: canvas.width / 2 - 25,
+            y: canvas.height / 2
+        }
         await renderEngine.addObject({
             components: {
                 sprite: {
@@ -11,6 +14,10 @@ class IslandHouse {
                     offset: {
                         x: -17,
                         y: -710
+                    },
+                    size: {
+                        width: canvas.width,
+                        height: canvas.height
                     }
 
                 },

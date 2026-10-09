@@ -14,8 +14,14 @@ function createPlayer({ image, x, y }) {
                     y: 0,
                 },
                 size: {
-                    width: 12,
-                    height: 12
+                    width: 48,
+                    height: 48
+                },
+                crop: {
+                    x: 0,
+                    y: 0,
+                    width: 22,
+                    height: 12,
                 }
             })
         }

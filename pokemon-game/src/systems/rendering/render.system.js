@@ -10,15 +10,35 @@ class RenderEngine {
         const imagem = new Image()
         imagem.src = components.sprite.image
         await imagem.decode()
+        components.sprite.size.width = imagem.width
+        components.sprite.size.height = imagem.height
+        const sprite = {
+            image: imagem,
+            offset: {
+                x: components.sprite.offset?.x ?? 0,
+                y: components.sprite.offset?.y ?? 0
+            },
+            size: {
+                width: components.sprite.size.width ?? imagem.width,
+                height: components.sprite.size.height ?? imagem.height
+            },
+
+        }
+
+        if (components?.sprite?.crop) {
+            components.sprite.crop.width = Math.floor(imagem.width / 4)
+            components.sprite.crop.height = Math.floor(imagem.height / 1)
+            sprite.crop = {
+                x: components.sprite.crop.x ?? 0,
+                y: components.sprite.crop.y ?? 0,
+                width: components.sprite.crop.width ?? Math.floor(imagem.width / 4),
+                height: components.sprite.crop.height ?? imagem.height
+            }
+        }
+
         this.renderObjects.push({
             oid: this.idbase += 1,
-            sprite: {
-                image: imagem,
-                offset: {
-                    x: components.sprite.offset.x,
-                    y: components.sprite.offset.y
-                }
-            },
+            sprite,
             transform: {
                 x: components.transform.x + components.sprite.offset.x,
                 y: components.transform.y + components.sprite.offset.y
@@ -47,7 +67,21 @@ class RenderEngine {
 
     render(context) {
         this.renderObjects.forEach(components => {
-            context.drawImage(components.sprite.image, components.transform.x, components.transform.y)
+            if (!!(components?.sprite?.crop)) {
+                context.drawImage(components.sprite.image,
+                    components.sprite.crop.x,
+                    components.sprite.crop.y,
+                    components.sprite.crop.width,
+                    components.sprite.crop.height,
+                    components.transform.x,
+                    components.transform.y,
+                    components.sprite.crop.width,
+                    components.sprite.crop.height)
+            } else {
+                context.drawImage(components.sprite.image,
+                    components.transform.x,
+                    components.transform.y)
+            }
         })
     }
 
