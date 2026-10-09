@@ -3,12 +3,12 @@ import renderEngine from "../rendering/render.system.js";
 
 const keys = getInputState();
 
-function movement({ player }) {
-    if (keys.ArrowRight) player.components.transform.x += 2;
-    if (keys.ArrowLeft) player.components.transform.x -= 2;
-    if (keys.ArrowUp) player.components.transform.y -= 2;
-    if (keys.ArrowDown) player.components.transform.y += 2;
-    renderEngine.updateObject(player)
+function movement({ map }) {
+    if (keys.ArrowRight) map.components.transform.x += 2;
+    if (keys.ArrowLeft) map.components.transform.x -= 2;
+    if (keys.ArrowUp) map.components.transform.y -= 2;
+    if (keys.ArrowDown) map.components.transform.y += 2;
+    renderEngine.updateObject(map)
 }
 
 export { movement }

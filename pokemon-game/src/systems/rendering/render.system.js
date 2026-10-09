@@ -25,23 +25,22 @@ class RenderEngine {
 
         }
 
-        if (components?.sprite?.crop) {
-            components.sprite.crop.width = Math.floor(imagem.width / 4)
-            components.sprite.crop.height = Math.floor(imagem.height / 1)
-            sprite.crop = {
+        if (components.sprite?.crop) {
+            const crop = {
                 x: components.sprite.crop.x ?? 0,
                 y: components.sprite.crop.y ?? 0,
-                width: components.sprite.crop.width ?? Math.floor(imagem.width / 4),
-                height: components.sprite.crop.height ?? imagem.height
-            }
+                width: imagem.width / 4,
+                height: imagem.height
+            };
+            sprite.crop = crop;
         }
 
         this.renderObjects.push({
             oid: this.idbase += 1,
             sprite,
             transform: {
-                x: components.transform.x + components.sprite.offset.x,
-                y: components.transform.y + components.sprite.offset.y
+                x: components.transform.x + (components.sprite.offset.x ?? 0),
+                y: components.transform.y + (components.sprite.offset.y ?? 0)
             }
         });
         return this.idbase
@@ -50,12 +49,8 @@ class RenderEngine {
     updateObject({ components }) {
         this.renderObjects.forEach(Renderobjects => {
             if (Renderobjects.oid === components.oid) {
-                if (Renderobjects.transform.x !== components.transform.x) {
-                    Renderobjects.transform.x = components.transform.x + components.sprite.offset.x
-                }
-                if (Renderobjects.transform.y !== components.transform.y) {
-                    Renderobjects.transform.y = components.transform.y + components.sprite.offset.y
-                }
+                Renderobjects.transform.x = components.transform.x + (components.sprite.offset.x ?? 0)
+                Renderobjects.transform.y = components.transform.y + (components.sprite.offset.y ?? 0)
             }
         })
     }
@@ -71,7 +66,7 @@ class RenderEngine {
 
     render(context) {
         this.renderObjects.forEach(components => {
-            if (!!(components?.sprite?.crop)) {
+            if (components.sprite?.crop) {
                 context.drawImage(components.sprite.image,
                     components.sprite.crop.x,
                     components.sprite.crop.y,
