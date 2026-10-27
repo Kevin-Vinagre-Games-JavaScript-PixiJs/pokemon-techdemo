@@ -6,6 +6,10 @@ import createMap from "../entities/Maps.js";
 class IslandHouse {
     player = null
     map = null
+    camera = {
+        x: 0,
+        y: 0
+    }
     async start({ canvas }) {
 
         const playerSpawPoint = {
@@ -37,6 +41,11 @@ class IslandHouse {
 
     update() {
         movement({ entity: this.player });
+
+        this.camera.x = this.player.components.transform.x - 512
+        this.camera.y = this.player.components.transform.y - 288
+
+        renderEngine.setCamera(this.camera)
     }
 }
 
